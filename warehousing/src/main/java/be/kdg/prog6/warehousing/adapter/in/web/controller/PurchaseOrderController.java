@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static be.kdg.prog6.common.security.UserActivityLogger.logUserActivity;
+import static be.kdg.prog6.common.security.UserRole.BUYER;
+import static be.kdg.prog6.common.security.UserRoleUtil.hasRole;
 import static java.lang.String.format;
 
 @RestController
@@ -55,7 +57,11 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAnyRole('ROLE_BUYER', 'ROLE_ADMIN')")
     public ResponseEntity<PurchaseOrderDto> sendPurchaseOrder(@RequestBody @Valid final SendPurchaseOrderDto request,
                                                               @AuthenticationPrincipal final Jwt jwt) {
+        final BuyerId buyerId = hasRole(jwt, BUYER)
+            ? BuyerId.of(UUID.fromString(jwt.getSubject()))
+            : BuyerId.of(request.buyerId());
         logUserActivity(LOGGER, jwt, "is sending a Purchase Order");
+
         final List<OrderLine> orderLines = request.orderLines()
             .stream()
             .map(orderLineRequest -> new OrderLine(
@@ -65,7 +71,7 @@ public class PurchaseOrderController {
             .toList();
 
         final SendPurchaseOrderCommand command = new SendPurchaseOrderCommand(
-            BuyerId.of(UUID.fromString(jwt.getSubject())),
+            buyerId,
             SellerId.of(request.sellerId()),
             orderLines
         );

@@ -57,7 +57,7 @@ public class SecurityConfig {
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         final JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            final UserRole userRole = UserRoleUtil.extractRole(jwt.getClaims());
+            final UserRole userRole = UserRoleUtil.extractRole(jwt);
             return List.of(new SimpleGrantedAuthority("ROLE_" + userRole.name())); // Convert to Spring Security format
         });
         return converter;

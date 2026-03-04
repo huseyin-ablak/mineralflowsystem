@@ -31,7 +31,7 @@ public final class UserActivityLogger {
     public static void logUserActivity(final Logger logger,
                                        final Jwt jwt,
                                        final String action) {
-        final UserRole role = UserRoleUtil.extractRole(jwt.getClaims());
+        final UserRole role = UserRoleUtil.extractRole(jwt);
         final Object email = jwt.getClaims().get("email");
         logger.info("{} ({}) {}", email, role.getDisplayName(), action);
     }

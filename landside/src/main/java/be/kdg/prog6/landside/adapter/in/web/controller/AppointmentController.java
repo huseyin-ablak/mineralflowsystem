@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static be.kdg.prog6.common.security.UserActivityLogger.logUserActivity;
+import static be.kdg.prog6.common.security.UserRole.SELLER;
+import static be.kdg.prog6.common.security.UserRoleUtil.hasRole;
 import static java.lang.String.format;
 
 @RestController
@@ -52,9 +54,13 @@ public class AppointmentController {
         @RequestBody @Valid final MakeAppointmentDto request,
         @AuthenticationPrincipal final Jwt jwt
     ) {
+        final SupplierId supplierId = hasRole(jwt, SELLER)
+            ? SupplierId.of(UUID.fromString(jwt.getSubject()))
+            : SupplierId.of(request.supplierId());
         logUserActivity(LOGGER, jwt, "is making an Appointment");
+
         final MakeAppointmentCommand command = new MakeAppointmentCommand(
-            SupplierId.of(UUID.fromString(jwt.getSubject())),
+            supplierId,
             new TruckLicensePlate(request.truckLicensePlate()),
             RawMaterial.fromString(request.rawMaterial()), // Validate and convert raw material
             request.scheduledArrivalTime()

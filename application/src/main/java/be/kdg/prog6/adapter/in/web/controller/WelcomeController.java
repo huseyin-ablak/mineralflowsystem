@@ -30,16 +30,17 @@ public class WelcomeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(WelcomeController.class);
 
     /**
-     * Returns the currently authenticated user info (email, first name, last name, and role).
+     * Returns the currently authenticated user info (ID, email, first name, last name, and role).
      */
     @GetMapping("/me")
     public ResponseEntity<AuthenticatedUserDto> me(@AuthenticationPrincipal final Jwt jwt) {
         logUserActivity(LOGGER, jwt, "is viewing their authenticated user information");
+        final String id = jwt.getSubject();
         final String email = jwt.getClaimAsString("email");
         final String firstName = jwt.getClaimAsString("given_name");
         final String lastName = jwt.getClaimAsString("family_name");
-        final UserRole role = extractRole(jwt.getClaims());
-        return ResponseEntity.ok(AuthenticatedUserDto.from(email, firstName, lastName, role));
+        final UserRole role = extractRole(jwt);
+        return ResponseEntity.ok(AuthenticatedUserDto.from(id, email, firstName, lastName, role));
     }
 
     /**

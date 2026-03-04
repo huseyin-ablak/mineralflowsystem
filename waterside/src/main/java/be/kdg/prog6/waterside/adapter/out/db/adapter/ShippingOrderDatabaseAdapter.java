@@ -116,8 +116,8 @@ public class ShippingOrderDatabaseAdapter implements CreateShippingOrderPort, Lo
     }
 
     private ShippingOrder toShippingOrder(final ShippingOrderJpaEntity shippingOrderJpa) {
-        final InspectionOperation inspectionOperation = toDomainInspectionOperation(shippingOrderJpa.getInspectionOperation());
-        final BunkeringOperation bunkeringOperation = toDomainBunkeringOperation(shippingOrderJpa.getBunkeringOperation());
+        final InspectionOperation inspectionOperation = toInspectionOperation(shippingOrderJpa.getInspectionOperation());
+        final BunkeringOperation bunkeringOperation = toBunkeringOperation(shippingOrderJpa.getBunkeringOperation());
         return new ShippingOrder(
             ShippingOrderId.of(shippingOrderJpa.getShippingOrderId()),
             ReferenceId.of(shippingOrderJpa.getReferenceId()),
@@ -133,7 +133,7 @@ public class ShippingOrderDatabaseAdapter implements CreateShippingOrderPort, Lo
         );
     }
 
-    private InspectionOperation toDomainInspectionOperation(final InspectionOperationJpaEntity inspectionJpa) {
+    private InspectionOperation toInspectionOperation(final InspectionOperationJpaEntity inspectionJpa) {
         return new InspectionOperation(
             InspectionOperationId.of(inspectionJpa.getId()),
             inspectionJpa.getPerformedOn(),
@@ -142,7 +142,7 @@ public class ShippingOrderDatabaseAdapter implements CreateShippingOrderPort, Lo
         );
     }
 
-    private BunkeringOperation toDomainBunkeringOperation(final BunkeringOperationJpaEntity bunkeringJpa) {
+    private BunkeringOperation toBunkeringOperation(final BunkeringOperationJpaEntity bunkeringJpa) {
         return new BunkeringOperation(
             BunkeringOperationId.of(bunkeringJpa.getId()),
             bunkeringJpa.getQueuedAt(),

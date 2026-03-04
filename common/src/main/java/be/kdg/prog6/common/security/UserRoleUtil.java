@@ -1,5 +1,7 @@
 package be.kdg.prog6.common.security;
 
+import org.springframework.security.oauth2.jwt.Jwt;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,13 +11,14 @@ public final class UserRoleUtil {
     }
 
     /**
-     * Extracts the user role from JWT claims and maps it to the UserRole enum
+     * Extracts the user role from a JWT token and maps it to the UserRole enum
      * <b>(Assuming a user can only have one role within the Mineral Flow System).</b>
      *
-     * @param claims JWT claims map.
+     * @param jwt The JWT token.
      * @return The extracted UserRole. If no valid role is found, returns UserRole.UNKNOWN.
      */
-    public static UserRole extractRole(final Map<String, Object> claims) {
+    public static UserRole extractRole(final Jwt jwt) {
+        final Map<String, Object> claims = jwt.getClaims();
         if (claims == null) {
             return UserRole.UNKNOWN;
         }
@@ -30,9 +33,20 @@ public final class UserRoleUtil {
         return rolesList.stream()
             .filter(String.class::isInstance)
             .map(String.class::cast)
-            .map(UserRole::fromString) // Convert to enum
-            .filter(role -> role != UserRole.UNKNOWN) // Ignore unknown roles
-            .findFirst() // Get the first "real role"
-            .orElse(UserRole.UNKNOWN); // If no "real role" is found then return UNKNOWN
+            .map(UserRole::fromString)
+            .filter(role -> role != UserRole.UNKNOWN)
+            .findFirst()
+            .orElse(UserRole.UNKNOWN);
+    }
+
+    /**
+     * Checks whether the authenticated user has the specified role.
+     *
+     * @param jwt  The JWT token.
+     * @param role The role to check for.
+     * @return {@code true} if the user has the specified role.
+     */
+    public static boolean hasRole(final Jwt jwt, final UserRole role) {
+        return extractRole(jwt) == role;
     }
 }

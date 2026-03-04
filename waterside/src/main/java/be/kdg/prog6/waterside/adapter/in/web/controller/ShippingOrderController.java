@@ -283,7 +283,7 @@ public class ShippingOrderController {
             format("is performing the Bunkering Operation for the Ship associated with Shipping Order ID %s",
                 id
             ));
-        final UserRole userRole = extractRole(jwt.getClaims());
+        final UserRole userRole = extractRole(jwt);
         final BunkerShipCommand command = new BunkerShipCommand(
             ShippingOrderId.of(id),
             userRole
