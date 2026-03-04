@@ -128,9 +128,6 @@ public class Warehouse {
         return projectedBalance.compareTo(BigDecimal.ZERO) >= 0;
     }
 
-    /**
-     * See {@code docs/notes-and-assumptions-made.md} -> "Warehousing Context" for details.
-     */
     public void assignRawMaterial(final RawMaterial toAssign) {
         if (isRawMaterialAssigned() && this.rawMaterial == toAssign) return;
         if (isRawMaterialAssigned() && !isEmpty()) {
