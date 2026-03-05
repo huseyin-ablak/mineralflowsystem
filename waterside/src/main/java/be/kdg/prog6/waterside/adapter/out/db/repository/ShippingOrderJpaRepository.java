@@ -11,8 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ShippingOrderJpaRepository extends JpaRepository<ShippingOrderJpaEntity, UUID> {
-    Optional<ShippingOrderJpaEntity> findByShippingOrderId(UUID shippingOrderId);
-
     @Query("""
             SELECT so FROM ShippingOrderJpaEntity so
             JOIN so.bunkeringOperation bo

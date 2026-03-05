@@ -36,7 +36,7 @@ public class ShippingOrderDatabaseAdapter implements CreateShippingOrderPort, Lo
     @Override
     public Optional<ShippingOrder> loadById(final ShippingOrderId id) {
         LOGGER.info("Loading Shipping Order by ID {}", id.id());
-        return shippingOrderJpaRepository.findByShippingOrderId(id.id()).map(this::toShippingOrder);
+        return shippingOrderJpaRepository.findById(id.id()).map(this::toShippingOrder);
     }
 
     @Override
