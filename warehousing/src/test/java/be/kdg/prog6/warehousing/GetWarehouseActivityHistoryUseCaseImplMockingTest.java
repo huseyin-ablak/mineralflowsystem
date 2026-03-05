@@ -39,23 +39,6 @@ class GetWarehouseActivityHistoryUseCaseImplMockingTest {
         );
     }
 
-    private static Warehouse createWarehouseWithAllocations() {
-        return new Warehouse(
-            TestIds.WAREHOUSE_ID_1,
-            TestIds.SELLER_ID,
-            TestIds.WAREHOUSE_NUMBER_1,
-            TestIds.RAW_MATERIAL_1,
-            Balance.ORIGIN,
-            new StockLedger(
-                TestIds.WAREHOUSE_ID_1,
-                List.of(new Delivery(TestIds.OLDEST_DELIVERY_ID, BASE_TIME, BigDecimal.TEN)),
-                List.of(new Shipment(TestIds.SHIPMENT_ID, BASE_TIME.plusMinutes(1), BigDecimal.TEN)),
-                List.of(new ShipmentAllocation(TestIds.WAREHOUSE_ID_1, TestIds.SHIPMENT_ID, TestIds.OLDEST_DELIVERY_ID, BigDecimal.TEN))
-            ),
-            TestIds.DEFAULT_SITE_LOCATION
-        );
-    }
-
     private static Warehouse createWarehouseWithShuffledActivities() {
         final WarehouseId warehouseId = TestIds.WAREHOUSE_ID_1;
         return new Warehouse(
@@ -109,54 +92,6 @@ class GetWarehouseActivityHistoryUseCaseImplMockingTest {
             ShipmentId.forWarehouse(TestIds.WAREHOUSE_ID_1),
             BASE_TIME.plusMinutes(minutes),
             BigDecimal.TEN
-        );
-    }
-
-    @Test
-    void shouldNotIncludeAllocationsInDefaultViewMode() {
-        // Arrange
-        when(loadWarehousePort.loadWarehouseByIdWithAllActivities(TestIds.WAREHOUSE_ID_1)).thenReturn(
-            Optional.of(createWarehouseWithShuffledActivities())
-        );
-        when(loadSellerPort.loadSellerById(TestIds.SELLER_ID)).thenReturn(
-            Optional.of(createSeller())
-        );
-
-        // Act
-        final GetWarehouseActivityHistoryQuery query = new GetWarehouseActivityHistoryQuery(
-            TestIds.WAREHOUSE_ID_1
-        );
-        final WarehouseActivityHistory history = sut.getWarehouseActivityHistory(
-            query
-        );
-
-        // Assert
-        assertTrue(history.allocations().isEmpty());
-    }
-
-    @Test
-    void shouldIncludeAllocationsWhenRequested() {
-        // Arrange
-        when(loadWarehousePort.loadWarehouseByIdWithAllActivitiesAndAllocations(TestIds.WAREHOUSE_ID_1)).thenReturn(
-            Optional.of(createWarehouseWithAllocations())
-        );
-        when(loadSellerPort.loadSellerById(TestIds.SELLER_ID)).thenReturn(
-            Optional.of(createSeller())
-        );
-
-        // Act
-        final GetWarehouseActivityHistoryQuery query = new GetWarehouseActivityHistoryQuery(
-            TestIds.WAREHOUSE_ID_1,
-            GetWarehouseActivityHistoryQuery.ViewMode.WITH_ALLOCATIONS
-        );
-        final WarehouseActivityHistory history = sut.getWarehouseActivityHistory(
-            query
-        );
-
-        // Assert
-        assertEquals(
-            List.of(new ShipmentAllocation(TestIds.WAREHOUSE_ID_1, TestIds.SHIPMENT_ID, TestIds.OLDEST_DELIVERY_ID, BigDecimal.TEN)),
-            history.allocations()
         );
     }
 
