@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GetWarehouseBalanceImplIntegrationTest extends AbstractDatabaseTest {
+public class GetWarehouseBalanceUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     @Autowired
     private GetWarehouseBalanceUseCase getWarehouseBalanceUseCase;
     @Autowired

@@ -107,7 +107,7 @@ class GetWarehouseActivityHistoryIntegrationTest extends AbstractDatabaseTest {
 
     private static WarehouseDeliveryJpaEntity createDelivery() {
         final WarehouseDeliveryJpaEntity delivery = new WarehouseDeliveryJpaEntity();
-        delivery.setId(new WarehouseDeliveryJpaId(TestIds.WAREHOUSE_ID_1.id(), TestIds.OLDEST_DELIVERY_ID.id()));
+        delivery.setId(WarehouseDeliveryJpaId.of(TestIds.OLDEST_DELIVERY_ID));
         delivery.setTime(BASE_TIME);
         delivery.setAmount(BigDecimal.TEN);
         return delivery;
@@ -115,7 +115,7 @@ class GetWarehouseActivityHistoryIntegrationTest extends AbstractDatabaseTest {
 
     private static WarehouseShipmentJpaEntity createShipment() {
         final WarehouseShipmentJpaEntity shipment = new WarehouseShipmentJpaEntity();
-        shipment.setId(new WarehouseShipmentJpaId(TestIds.WAREHOUSE_ID_1.id(), TestIds.SHIPMENT_ID.id()));
+        shipment.setId(WarehouseShipmentJpaId.of(TestIds.SHIPMENT_ID));
         shipment.setTime(BASE_TIME.plusMinutes(1));
         shipment.setAmount(BigDecimal.TEN);
         return shipment;
@@ -123,11 +123,9 @@ class GetWarehouseActivityHistoryIntegrationTest extends AbstractDatabaseTest {
 
     private static ShipmentAllocationJpaEntity createAllocation() {
         final ShipmentAllocationJpaEntity allocation = new ShipmentAllocationJpaEntity();
-        allocation.setId(new ShipmentAllocationJpaId(
-            TestIds.WAREHOUSE_ID_1.id(),
-            TestIds.SHIPMENT_ID.id(),
-            TestIds.OLDEST_DELIVERY_ID.id()
-        ));
+        allocation.setId(
+            ShipmentAllocationJpaId.of(TestIds.WAREHOUSE_ID_1, TestIds.SHIPMENT_ID, TestIds.OLDEST_DELIVERY_ID)
+        );
         allocation.setAmountAllocated(BigDecimal.TEN);
         return allocation;
     }

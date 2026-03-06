@@ -340,7 +340,7 @@ public class WarehouseDatabaseAdapter
             .stream()
             .map(WarehouseDatabaseAdapter::toShipmentAllocation)
             .toList();
-        // Load allocations for `full-fledged` activity history (for allocation tracking )
+        // Load allocations for `full-fledged` activity history (for allocation tracking)
         return new StockLedger(WarehouseId.of(warehouseId), deliveries, shipments, allocations);
     }
 
