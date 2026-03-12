@@ -59,13 +59,13 @@ grant_type=password
 #
 ##### Extra: • **As a warehouse manager**, I want to query the Balance of a specific warehouse (optionally as of a given point in time), so I can monitor stock levels currently or historically.
 #
-#### Current balance (asOf defaults to now)
+#### Current balance ('as-of' defaults to now)
 #GET http://localhost:8090/api/warehousing/warehouses/{{warehouseId}}/balance
 #Accept: application/json
 #Authorization: Bearer {{warehouse_manager_access_token}}
 ##Authorization: Bearer {{admin_access_token}}
 #
-#### Historical balance (with asOf parameter)
+#### Historical balance (with 'as-of' request parameter)
 #GET http://localhost:8090/api/warehousing/warehouses/{{warehouseId}}/balance?as-of=2026-02-25T00:00:00
 ##GET http://localhost:8090/api/warehousing/warehouses/{{warehouseId}}/balance?as-of=2026-02-24T00:00:00 # before any activity: balance = 0
 #Accept: application/json
