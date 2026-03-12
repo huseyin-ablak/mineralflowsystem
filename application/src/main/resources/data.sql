@@ -119,7 +119,7 @@ INSERT INTO landside.daily_schedules (date) VALUES
     (@now + INTERVAL 3 DAY);
 
 -- Insert one time slot per day: 08:00–09:00, capacity 39 [Normally 24 slots per day, but either the sql file will become huge or I will need to write an ugly query for it :)]
-INSERT INTO landside.time_slots (id, start_time, end_time, available_capacity, daily_schedule_date) VALUES
+INSERT INTO landside.time_slots (id, start_time, end_time, remaining_spots, daily_schedule_date) VALUES
     ('11111111-1111-1111-1111-111111111111', @now - INTERVAL 1 DAY + INTERVAL 8 HOUR, @now - INTERVAL 1 DAY + INTERVAL 9 HOUR, 39, @now - INTERVAL 1 DAY),
     ('22222222-2222-2222-2222-222222222222', @now + INTERVAL 2 DAY + INTERVAL 8 HOUR, @now + INTERVAL 2 DAY + INTERVAL 9 HOUR, 39, @now + INTERVAL 2 DAY),
     ('33333333-3333-3333-3333-333333333333', @now + INTERVAL 3 DAY + INTERVAL 8 HOUR, @now + INTERVAL 3 DAY + INTERVAL 9 HOUR, 39, @now + INTERVAL 3 DAY);

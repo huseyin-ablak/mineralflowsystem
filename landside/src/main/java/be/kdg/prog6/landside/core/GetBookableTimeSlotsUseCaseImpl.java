@@ -3,8 +3,8 @@ package be.kdg.prog6.landside.core;
 import be.kdg.prog6.landside.domain.DailySchedule;
 import be.kdg.prog6.landside.domain.TimeSlot;
 import be.kdg.prog6.landside.domain.exception.DailyScheduleNotAvailableException;
-import be.kdg.prog6.landside.port.in.usecase.query.GetAvailableTimeSlotsUseCase;
-import be.kdg.prog6.landside.port.in.usecase.query.readmodel.AvailableTimeSlot;
+import be.kdg.prog6.landside.port.in.usecase.query.GetBookableTimeSlotsUseCase;
+import be.kdg.prog6.landside.port.in.usecase.query.readmodel.BookableTimeSlot;
 import be.kdg.prog6.landside.port.out.LoadDailySchedulePort;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -20,28 +20,28 @@ import java.util.List;
 import static be.kdg.prog6.common.ProjectInfo.KDG;
 
 @Service
-public class GetAvailableTimeSlotsUseCaseImpl implements GetAvailableTimeSlotsUseCase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetAvailableTimeSlotsUseCaseImpl.class);
+public class GetBookableTimeSlotsUseCaseImpl implements GetBookableTimeSlotsUseCase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetBookableTimeSlotsUseCaseImpl.class);
 
     private final LoadDailySchedulePort loadDailySchedulePort;
     private final Clock clock;
 
-    public GetAvailableTimeSlotsUseCaseImpl(final LoadDailySchedulePort loadDailySchedulePort,
-                                            final Clock clock) {
+    public GetBookableTimeSlotsUseCaseImpl(final LoadDailySchedulePort loadDailySchedulePort,
+                                           final Clock clock) {
         this.loadDailySchedulePort = loadDailySchedulePort;
         this.clock = clock;
     }
 
     /**
-     * Time slots are not persisted when merely displaying availability.<br>
+     * Time slots are not persisted when merely displaying bookability.<br>
      * They are only saved to the database when an appointment is created.<br>
      * See {@link be.kdg.prog6.landside.adapter.in.web.controller.AppointmentController} for the booking logic.
      */
     @Override
     @Transactional
-    public List<AvailableTimeSlot> getAvailableTimeSlotsFor(final LocalDate date) {
+    public List<BookableTimeSlot> getBookableTimeSlotsFor(final LocalDate date) {
         final LocalDateTime now = LocalDateTime.now(clock);
-        LOGGER.info("Getting Available Time Slots for date {} at {}", date, KDG);
+        LOGGER.info("Getting Bookable Time Slots for date {} at {}", date, KDG);
         final DailySchedule dailySchedule = loadDailySchedulePort.loadDailyScheduleByDate(date).orElseThrow(
             () -> DailyScheduleNotAvailableException.forDate(date)
         );
@@ -49,7 +49,7 @@ public class GetAvailableTimeSlotsUseCaseImpl implements GetAvailableTimeSlotsUs
             .stream()
             .filter(slot -> slot.isBookableAt(now))
             .sorted(Comparator.comparing(TimeSlot::getStartTime))
-            .map(AvailableTimeSlot::fromDomain)
+            .map(BookableTimeSlot::fromDomain)
             .toList();
     }
 }

@@ -115,7 +115,7 @@ public class DailyScheduleDatabaseAdapter implements LoadDailySchedulePort, Upda
         timeSlotJpaEntity.setId(timeSlot.getId().id());
         timeSlotJpaEntity.setStartTime(timeSlot.getStartTime());
         timeSlotJpaEntity.setEndTime(timeSlot.getEndTime());
-        timeSlotJpaEntity.setAvailableCapacity(timeSlot.calculateAvailableCapacity());
+        timeSlotJpaEntity.setRemainingSpots(timeSlot.getNumberOfRemainingSpots());
         timeSlotJpaEntity.setAppointments(
             timeSlot.getAppointments()
                 .stream()

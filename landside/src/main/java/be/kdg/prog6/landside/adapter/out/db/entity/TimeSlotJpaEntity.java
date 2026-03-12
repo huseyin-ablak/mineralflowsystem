@@ -26,8 +26,8 @@ public class TimeSlotJpaEntity {
     @OneToMany(mappedBy = "timeSlot", cascade = CascadeType.ALL)
     private List<AppointmentJpaEntity> appointments = new ArrayList<>();
 
-    @Column(name = "available_capacity", nullable = false)
-    private int availableCapacity;
+    @Column(name = "remaining_spots", nullable = false)
+    private int remainingSpots;
 
     @ManyToOne
     @JoinColumn(name = "daily_schedule_date", referencedColumnName = "date")
@@ -74,11 +74,11 @@ public class TimeSlotJpaEntity {
         this.dailySchedule = dailySchedule;
     }
 
-    public void setAvailableCapacity(final int availableCapacity) {
-        this.availableCapacity = availableCapacity;
+    public void setRemainingSpots(final int remainingSpots) {
+        this.remainingSpots = remainingSpots;
     }
 
-    public int getAvailableCapacity() {
-        return availableCapacity;
+    public int getRemainingSpots() {
+        return remainingSpots;
     }
 }

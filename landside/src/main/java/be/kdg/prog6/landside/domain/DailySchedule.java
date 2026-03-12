@@ -69,7 +69,7 @@ public class DailySchedule {
 
     private boolean hasAvailableSlotFor(final LocalDateTime scheduledArrivalTime) {
         for (TimeSlot slot : timeSlots) {
-            if (slot.contains(scheduledArrivalTime) && slot.isAvailable()) {
+            if (slot.contains(scheduledArrivalTime) && slot.hasRemainingSpots()) {
                 return true;
             }
         }

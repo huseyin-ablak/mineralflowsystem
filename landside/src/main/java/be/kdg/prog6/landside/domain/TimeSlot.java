@@ -4,6 +4,7 @@ import be.kdg.prog6.common.exception.InvalidOperationException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TimeSlot {
@@ -41,7 +42,7 @@ public class TimeSlot {
     }
 
     public List<Appointment> getAppointments() {
-        return appointments;
+        return Collections.unmodifiableList(appointments);
     }
 
     /**
@@ -50,20 +51,17 @@ public class TimeSlot {
     public boolean isBookableAt(final LocalDateTime now) {
         // Past/ongoing policy: bookable if it ends in the future.
         // If you want strictly future-only (=starting from the very next slot), use startTime.isAfter(now).
-        return endTime.isAfter(now) && isAvailable();
+        return endTime.isAfter(now) && hasRemainingSpots();
     }
 
-    // Get all active appointments (exclude CANCELLED)
     public List<Appointment> findActiveAppointments() {
-        return appointments.stream()
-            .filter(Appointment::isActive)
-            .toList();
+        return appointments.stream().filter(Appointment::isActive).toList();
     }
 
     // Add appointment to the time slot, only if there is available capacity
     public void addAppointment(final Appointment appointment) {
-        if (!isAvailable()) {
-            throw new InvalidOperationException("No available capacity in this Time Slot");
+        if (!hasRemainingSpots()) {
+            throw new InvalidOperationException("No remaining spots in this Time Slot");
         }
         appointments.add(appointment);
     }
@@ -73,24 +71,19 @@ public class TimeSlot {
         return !time.isBefore(startTime) && time.isBefore(endTime);
     }
 
-    // Get the number of active appointments (excluding CANCELLED)
     public int countActiveAppointments() {
-        return (int) appointments
-            .stream()
-            .filter(Appointment::isActive)
-            .count();
+        return findActiveAppointments().size();
     }
 
-    // Method to check if the time slot is available
-    public boolean isAvailable() {
+    public boolean hasRemainingSpots() {
         return countActiveAppointments() < MAX_APPOINTMENTS;
     }
 
     public boolean isFullyBooked() {
-        return countActiveAppointments() == MAX_APPOINTMENTS;
+        return !hasRemainingSpots();
     }
 
-    public int calculateAvailableCapacity() {
+    public int getNumberOfRemainingSpots() {
         return MAX_APPOINTMENTS - countActiveAppointments();
     }
 }

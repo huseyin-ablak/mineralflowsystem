@@ -52,7 +52,7 @@ Represents a one-hour time window for scheduling truck appointments (max 40 acti
 - `isAvailable()`
 - `isFullyBooked()`
 - `isBookableAt(LocalDateTime now)`
-- `calculateAvailableCapacity()`
+- `getNumberOfRemainingSpots()`
 - `countActiveAppointments()`
 - `contains(LocalDateTime)`
 

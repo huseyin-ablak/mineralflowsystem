@@ -1,9 +1,9 @@
 package be.kdg.prog6.landside;
 
-import be.kdg.prog6.landside.core.GetAvailableTimeSlotsUseCaseImpl;
+import be.kdg.prog6.landside.core.GetBookableTimeSlotsUseCaseImpl;
 import be.kdg.prog6.landside.domain.DailySchedule;
 import be.kdg.prog6.landside.domain.TimeSlot;
-import be.kdg.prog6.landside.port.in.usecase.query.readmodel.AvailableTimeSlot;
+import be.kdg.prog6.landside.port.in.usecase.query.readmodel.BookableTimeSlot;
 import be.kdg.prog6.landside.port.out.LoadDailySchedulePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class GetAvailableTimeSlotsUseCaseImplTest {
-    private GetAvailableTimeSlotsUseCaseImpl sut;
+class GetBookableTimeSlotsUseCaseImplTest {
+    private GetBookableTimeSlotsUseCaseImpl sut;
     private LoadDailySchedulePort loadDailySchedulePort;
 
     private static final LocalDate TEST_DATE = LocalDate.of(
@@ -47,7 +47,7 @@ class GetAvailableTimeSlotsUseCaseImplTest {
     @BeforeEach
     void setUp() {
         loadDailySchedulePort = mock(LoadDailySchedulePort.class);
-        sut = new GetAvailableTimeSlotsUseCaseImpl(
+        sut = new GetBookableTimeSlotsUseCaseImpl(
             loadDailySchedulePort,
             FIXED_CLOCK
         );
@@ -62,13 +62,13 @@ class GetAvailableTimeSlotsUseCaseImplTest {
         );
 
         // Act
-        final List<AvailableTimeSlot> availableTimeSlots = sut.getAvailableTimeSlotsFor(TEST_DATE);
+        final List<BookableTimeSlot> bookableTimeSlots = sut.getBookableTimeSlotsFor(TEST_DATE);
 
         // Assert
-        assertEquals(2, availableTimeSlots.size());
+        assertEquals(2, bookableTimeSlots.size());
 
-        assertEquals(TEST_DATE.atTime(SLOT_2_START), availableTimeSlots.get(0).startTime());
-        assertEquals(TEST_DATE.atTime(SLOT_3_START), availableTimeSlots.get(1).startTime());
+        assertEquals(TEST_DATE.atTime(SLOT_2_START), bookableTimeSlots.get(0).startTime());
+        assertEquals(TEST_DATE.atTime(SLOT_3_START), bookableTimeSlots.get(1).startTime());
     }
 
     private static DailySchedule createScheduleWithPastOngoingAndUpcomingTimeSlots() {

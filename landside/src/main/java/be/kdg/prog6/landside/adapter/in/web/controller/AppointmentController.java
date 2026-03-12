@@ -1,13 +1,13 @@
 package be.kdg.prog6.landside.adapter.in.web.controller;
 
 import be.kdg.prog6.landside.adapter.in.web.dto.AppointmentDto;
-import be.kdg.prog6.landside.adapter.in.web.dto.AvailableTimeSlotDto;
+import be.kdg.prog6.landside.adapter.in.web.dto.BookableTimeSlotDto;
 import be.kdg.prog6.landside.adapter.in.web.dto.request.MakeAppointmentDto;
 import be.kdg.prog6.landside.domain.*;
 import be.kdg.prog6.landside.port.in.command.MakeAppointmentCommand;
 import be.kdg.prog6.landside.port.in.usecase.MakeAppointmentUseCase;
-import be.kdg.prog6.landside.port.in.usecase.query.GetAvailableTimeSlotsUseCase;
-import be.kdg.prog6.landside.port.in.usecase.query.readmodel.AvailableTimeSlot;
+import be.kdg.prog6.landside.port.in.usecase.query.GetBookableTimeSlotsUseCase;
+import be.kdg.prog6.landside.port.in.usecase.query.readmodel.BookableTimeSlot;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +34,12 @@ public class AppointmentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppointmentController.class);
 
     private final MakeAppointmentUseCase makeAppointmentUseCase;
-    private final GetAvailableTimeSlotsUseCase getAvailableTimeSlotsUseCase;
+    private final GetBookableTimeSlotsUseCase getBookableTimeSlotsUseCase;
 
     public AppointmentController(final MakeAppointmentUseCase makeAppointmentUseCase,
-                                 final GetAvailableTimeSlotsUseCase getAvailableTimeSlotsUseCase) {
+                                 final GetBookableTimeSlotsUseCase getBookableTimeSlotsUseCase) {
         this.makeAppointmentUseCase = makeAppointmentUseCase;
-        this.getAvailableTimeSlotsUseCase = getAvailableTimeSlotsUseCase;
+        this.getBookableTimeSlotsUseCase = getBookableTimeSlotsUseCase;
     }
 
     /**
@@ -72,23 +72,23 @@ public class AppointmentController {
 
     /**
      * 📘 - User Story<br></br>
-     * As a <b>seller</b>, I want to see the available time slots for a specific day to see if I can book an appointment.
+     * As a <b>seller</b>, I want to see the bookable time slots for a specific day to see if I can book an appointment.
      */
     @GetMapping("/available-time-slots")
     @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_ADMIN')")
-    public ResponseEntity<List<AvailableTimeSlotDto>> getAvailableTimeSlotsByDate(
+    public ResponseEntity<List<BookableTimeSlotDto>> getBookableTimeSlotsByDate(
         @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date,
         @AuthenticationPrincipal final Jwt jwt) {
-        logUserActivity(LOGGER, jwt, format("is viewing Available Time Slots for date %s",
+        logUserActivity(LOGGER, jwt, format("is viewing Bookable Time Slots for date %s",
             date
         ));
-        final List<AvailableTimeSlot> availableTimeSlots = getAvailableTimeSlotsUseCase.getAvailableTimeSlotsFor(
+        final List<BookableTimeSlot> bookableTimeSlots = getBookableTimeSlotsUseCase.getBookableTimeSlotsFor(
             date
         );
-        final List<AvailableTimeSlotDto> availableTimeSlotDtos = availableTimeSlots
+        final List<BookableTimeSlotDto> bookableTimeSlotDtos = bookableTimeSlots
             .stream()
-            .map(AvailableTimeSlotDto::of)
+            .map(BookableTimeSlotDto::of)
             .toList();
-        return ResponseEntity.ok(availableTimeSlotDtos);
+        return ResponseEntity.ok(bookableTimeSlotDtos);
     }
 }
