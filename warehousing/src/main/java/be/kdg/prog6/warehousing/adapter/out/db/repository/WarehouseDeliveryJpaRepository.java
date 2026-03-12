@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface WarehouseDeliveryJpaRepository extends JpaRepository<WarehouseDeliveryJpaEntity, WarehouseDeliveryJpaId> {
-    List<WarehouseDeliveryJpaEntity> findAllById_WarehouseIdAndTimeAfter(UUID warehouseId, LocalDateTime time);
-
     List<WarehouseDeliveryJpaEntity> findAllById_WarehouseId(UUID warehouseId);
+
+    List<WarehouseDeliveryJpaEntity> findAllById_WarehouseIdAndTimeAfter(UUID warehouseId, LocalDateTime time);
 
     List<WarehouseDeliveryJpaEntity> findAllById_WarehouseIdAndTimeBetween(UUID warehouseId, LocalDateTime from, LocalDateTime to);
 }
