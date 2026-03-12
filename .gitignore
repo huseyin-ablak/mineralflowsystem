@@ -5,7 +5,6 @@ infrastructure/idp_mysql_data/
 infrastructure/idp_mysql_data_backup/
 infrastructure/mysql/data
 infrastructure/rabbitmq/
-#infrastructure/db/
 
 # Environment variables
 .env
