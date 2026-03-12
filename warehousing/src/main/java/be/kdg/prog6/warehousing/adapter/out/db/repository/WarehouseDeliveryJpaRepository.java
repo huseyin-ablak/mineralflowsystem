@@ -13,6 +13,6 @@ public interface WarehouseDeliveryJpaRepository extends JpaRepository<WarehouseD
 
     List<WarehouseDeliveryJpaEntity> findAllById_WarehouseId(UUID warehouseId);
 
-    List<WarehouseDeliveryJpaEntity> findAllById_WarehouseIdAndTimeBetween(final UUID warehouseId, final LocalDateTime from, final LocalDateTime to);
+    List<WarehouseDeliveryJpaEntity> findAllById_WarehouseIdAndTimeBetween(UUID warehouseId, LocalDateTime from, LocalDateTime to);
 }
 
