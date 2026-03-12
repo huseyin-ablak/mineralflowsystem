@@ -42,6 +42,7 @@ public class ReportStorageForWarehousesTaskImpl implements ReportStorageForWareh
     public void reportStorageForWarehouses() {
         final LocalDateTime reportingDateTime = LocalDateTime.now(clock);
         LOGGER.info("Reporting storage for Warehouses of all Sellers at {}", KDG);
+
         final List<SellerId> sellerIds = loadSellerPort.loadAllSellerIds();
         for (SellerId sellerId : sellerIds) {
             final List<Warehouse> sellerWarehouses = loadWarehousePort.loadWarehousesBySellerIdForReporting(sellerId);
