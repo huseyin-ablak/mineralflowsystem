@@ -82,7 +82,7 @@ grant_type=password
 #
 #{}
 #
-#### • As an **accountant**, I want to see the total outstanding credit (sum of all SENT invoices)
+#### • As an **accountant**, I want to see the total outstanding credit, so that I can have visibility into the total billed-but-unpaid amounts.
 #GET http://localhost:8090/api/outstanding-credit/total
 #Authorization: Bearer {{accountant_access_token}}
 ##Authorization: Bearer {{admin_access_token}}
