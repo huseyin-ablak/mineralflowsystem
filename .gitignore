@@ -3,7 +3,7 @@
 
 infrastructure/idp_mysql_data/
 infrastructure/idp_mysql_data_backup/
-infrastructure/mysql/
+infrastructure/mysql/data
 infrastructure/rabbitmq/
 #infrastructure/db/
 

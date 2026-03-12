@@ -121,7 +121,7 @@ For the full list of domain model classes and their responsibilities, see the se
 
 ## Users and Roles
 
-All users below are automatically provisioned via the Keycloak realm import on first startup –  no manual setup required.
+All users below are automatically provisioned via the Keycloak realm import on first startup – no manual setup required.
 
 | **Role**          | **Username** | **Email**                      | **Password**      |
 |-------------------|--------------|--------------------------------|-------------------|
