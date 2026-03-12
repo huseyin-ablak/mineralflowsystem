@@ -23,7 +23,7 @@ public class WarehousingSiteConfiguration {
 
     @Bean
     public WarehouseFootprint warehouseFootprint(final SiteConfigurationProperties props) {
-        final var footprint = props.footprint();
+        final var footprint = props.warehouseFootprint();
         return new WarehouseFootprint(footprint.width(), footprint.height());
     }
 }

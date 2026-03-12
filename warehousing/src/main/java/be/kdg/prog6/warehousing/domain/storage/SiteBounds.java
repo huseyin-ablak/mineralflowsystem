@@ -12,6 +12,10 @@ public record SiteBounds(
     double minNorthing,
     double maxNorthing
 ) {
+    public SiteLocation origin() {
+        return new SiteLocation(minEasting, minNorthing);
+    }
+
     public boolean covers(final SiteLocation location, final WarehouseFootprint footprint) {
         return location.easting() >= minEasting
             && (location.easting() + footprint.width()) <= maxEasting

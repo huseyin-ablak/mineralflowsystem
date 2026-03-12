@@ -45,6 +45,6 @@ kdg:
       max-easting: ${SITE_MAX_EASTING:1200}
       min-northing: ${SITE_MIN_NORTHING:0}
       max-northing: ${SITE_MAX_NORTHING:800}
-    footprint:
+    warehouse-footprint:
       width: ${WAREHOUSE_FOOTPRINT_WIDTH:100}
       height: ${WAREHOUSE_FOOTPRINT_HEIGHT:100}

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kdg.site")
 public record SiteConfigurationProperties(
     Bounds bounds,
-    Footprint footprint
+    WarehouseFootprintProperties warehouseFootprint
 ) {
     public record Bounds(
         double minEasting,
@@ -15,7 +15,7 @@ public record SiteConfigurationProperties(
     ) {
     }
 
-    public record Footprint(
+    public record WarehouseFootprintProperties(
         double width,
         double height
     ) {
