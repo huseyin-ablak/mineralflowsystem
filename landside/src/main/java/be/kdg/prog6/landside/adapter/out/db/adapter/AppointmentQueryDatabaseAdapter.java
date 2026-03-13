@@ -40,7 +40,7 @@ public class AppointmentQueryDatabaseAdapter implements AppointmentQueryPort {
 
     @Override
     public List<Appointment> loadAppointmentsByStatusAndWarehouseId(final AppointmentStatus status, final WarehouseId warehouseId) {
-        LOGGER.info("Loading scheduled Appointments for Warehouse {}", warehouseId.id());
+        LOGGER.info("Loading {} Appointments for Warehouse {}", status, warehouseId.id());
         return appointmentJpaRepository
             .findByWarehouseIdAndStatus(warehouseId.id(), status)
             .stream()
