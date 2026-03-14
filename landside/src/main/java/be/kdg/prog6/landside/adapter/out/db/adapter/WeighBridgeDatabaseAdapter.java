@@ -43,7 +43,7 @@ public class WeighBridgeDatabaseAdapter implements LoadWeighBridgePort, UpdateWe
     }
 
     @Override
-    public Optional<WeighBridge> loadByOccupiedVisitId(final VisitId visitId) {
+    public Optional<WeighBridge> loadByOccupiedByVisitId(final VisitId visitId) {
         LOGGER.debug("Finding WeighBridge occupied by Visit: {}", visitId.id());
         return weighBridgeJpaRepository.findByOccupiedByVisitId(visitId.id()).map(this::toWeighBridge);
     }
@@ -61,7 +61,7 @@ public class WeighBridgeDatabaseAdapter implements LoadWeighBridgePort, UpdateWe
             : null;
         return new WeighBridge(
             WeighBridgeId.of(entity.getWeighBridgeId()),
-            WeighBridgeNumber.of(entity.getNumber()),
+            new WeighBridgeNumber(entity.getNumber()),
             occupiedByVisitId
         );
     }

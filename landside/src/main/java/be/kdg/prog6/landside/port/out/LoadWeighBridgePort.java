@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface LoadWeighBridgePort {
     Optional<WeighBridge> loadClosestAvailableWeighBridge();
 
-    Optional<WeighBridge> loadByOccupiedVisitId(VisitId visitId);
+    Optional<WeighBridge> loadByOccupiedByVisitId(VisitId visitId);
 
     List<WeighBridge> loadWeighBridges();
 }

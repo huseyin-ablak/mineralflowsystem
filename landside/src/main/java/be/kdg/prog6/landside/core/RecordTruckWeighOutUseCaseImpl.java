@@ -50,7 +50,7 @@ public class RecordTruckWeighOutUseCaseImpl implements RecordTruckWeighOutUseCas
             () -> VisitNotFoundException.activeForTruck(plate)
         );
         // The weigh bridge was already occupied at docking
-        final WeighBridge weighBridge = loadWeighBridgePort.loadByOccupiedVisitId(visit.getVisitId()).orElseThrow();
+        final WeighBridge weighBridge = loadWeighBridgePort.loadByOccupiedByVisitId(visit.getVisitId()).orElseThrow();
         LOGGER.info(
             "Recording weigh-out for truck {} on weighbridge {}", plate, weighBridge.getNumber().value()
         );
