@@ -17,5 +17,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface BoundedContextMessagingConfig {
-}
+public @interface BoundedContextMessagingConfig {}

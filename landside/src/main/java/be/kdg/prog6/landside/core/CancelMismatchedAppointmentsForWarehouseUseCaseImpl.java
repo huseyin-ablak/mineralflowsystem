@@ -55,11 +55,7 @@ public class CancelMismatchedAppointmentsForWarehouseUseCaseImpl implements Canc
             final DailySchedule dailySchedule = loadDailySchedulePort.loadDailyScheduleByDate(entry.getKey()).orElseThrow();
             for (final Appointment appointment : entry.getValue()) {
                 dailySchedule.cancelAppointment(appointment.getAppointmentId());
-                LOGGER.debug(
-                    "Cancelled Appointment {} for Warehouse {} (was {}, now {})",
-                    appointment.getAppointmentId().id(), warehouseId.id(),
-                    appointment.getRawMaterial(), newRawMaterial
-                );
+                LOGGER.debug("Cancelled Appointment {} for Warehouse {}", appointment.getAppointmentId().id(), warehouseId.id());
             }
             updateDailySchedulePort.updateDailySchedule(dailySchedule);
         }

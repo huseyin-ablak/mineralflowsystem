@@ -76,10 +76,10 @@ class ProcessQueuedBunkeringOperationsTaskImplTest {
             assertTrue(order.isShipBunkered());
             assertTrue(order.getBunkering().isCompleted());
         }
-        final List<ShippingOrderId> processedIds = processedOrders.stream().map(ShippingOrder::getShippingOrderId).toList();
+        final List<ShippingOrderId> processedOrderIds = processedOrders.stream().map(ShippingOrder::getShippingOrderId).toList();
         assertEquals(
             List.of(SHIPPING_ORDER_ID_1, SHIPPING_ORDER_ID_2, SHIPPING_ORDER_ID_3),
-            processedIds
+            processedOrderIds
         );
     }
 
