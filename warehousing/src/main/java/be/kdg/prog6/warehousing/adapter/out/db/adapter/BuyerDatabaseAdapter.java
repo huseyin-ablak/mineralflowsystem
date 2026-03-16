@@ -6,7 +6,9 @@ import be.kdg.prog6.warehousing.adapter.out.db.value.AddressEmbeddable;
 import be.kdg.prog6.warehousing.domain.Address;
 import be.kdg.prog6.warehousing.domain.Buyer;
 import be.kdg.prog6.warehousing.domain.BuyerId;
+import be.kdg.prog6.warehousing.port.out.BuyerProfilePicturePort;
 import be.kdg.prog6.warehousing.port.out.LoadBuyerPort;
+import be.kdg.prog6.warehousing.port.out.ProfilePicture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class BuyerDatabaseAdapter implements LoadBuyerPort {
+public class BuyerDatabaseAdapter implements LoadBuyerPort, BuyerProfilePicturePort {
     private static final Logger LOGGER = LoggerFactory.getLogger(BuyerDatabaseAdapter.class);
 
     private final BuyerJpaRepository buyerJpaRepository;
@@ -52,5 +54,24 @@ public class BuyerDatabaseAdapter implements LoadBuyerPort {
             addressEmbeddable.getCity(),
             addressEmbeddable.getCountry()
         );
+    }
+
+    @Override
+    public Optional<ProfilePicture> loadProfilePicture(final BuyerId buyerId) {
+        LOGGER.info("Loading Profile Picture for Buyer with ID {}", buyerId.id());
+        final BuyerJpaEntity buyerJpa = buyerJpaRepository.findById(buyerId.id()).orElseThrow();
+        if (buyerJpa.hasProfilePicture()) {
+            return Optional.of(new ProfilePicture(buyerJpa.getProfilePicture(), buyerJpa.getProfilePictureContentType()));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void saveProfilePicture(final BuyerId buyerId, final byte[] content, final String contentType) {
+        LOGGER.info("Saving Profile Picture for Buyer with ID {}", buyerId.id());
+        final BuyerJpaEntity buyerJpa = buyerJpaRepository.findById(buyerId.id()).orElseThrow();
+        buyerJpa.setProfilePicture(content);
+        buyerJpa.setProfilePictureContentType(contentType);
+        buyerJpaRepository.save(buyerJpa);
     }
 }

@@ -2,6 +2,8 @@
 
 ### Reusable IDs
 @warehouseId = cd37c514-7cd6-4031-8130-854ffaeee00b
+@sellerId = 23f11460-22bb-4888-b52a-2c5f6c9d1ea5
+@buyerId = be32da76-2ca5-4bee-9f3b-62aab7839622
 
 ### **Get Access Token for Warehousing - ADMIN**
 POST http://localhost:8180/realms/mineralflow/protocol/openid-connect/token
@@ -45,6 +47,52 @@ grant_type=password
     client.global.set("buyer_access_token", response.body.access_token);
 %}
 
+### **Get Access Token for Warehousing - SELLER**
+POST http://localhost:8180/realms/mineralflow/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=warehousing-client&
+client_secret=uq4RSCgQVxOF2rTt4tOPY3N3m6uPI4LH&
+username=safa&
+password=seller&
+grant_type=password
+
+> {%
+    client.global.set("seller_access_token", response.body.access_token);
+%}
+
+#### • **As a seller**, I want to upload my profile picture.
+#PUT http://localhost:8090/api/warehousing/sellers/{{sellerId}}/profile-picture
+#Authorization: Bearer {{seller_access_token}}
+#Content-Type: multipart/form-data; boundary=boundary
+#
+#--boundary
+#Content-Disposition: form-data; name="file"; filename="seller.png"
+#Content-Type: image/png
+#
+#< ./images/sellers/23f11460-22bb-4888-b52a-2c5f6c9d1ea5.png
+#--boundary--
+#
+#### • **As a seller**, I want to view my profile picture.
+#GET http://localhost:8090/api/warehousing/sellers/{{sellerId}}/profile-picture
+#Authorization: Bearer {{seller_access_token}}
+#
+#### • **As a buyer**, I want to upload my profile picture.
+#PUT http://localhost:8090/api/warehousing/buyers/{{buyerId}}/profile-picture
+#Authorization: Bearer {{buyer_access_token}}
+#Content-Type: multipart/form-data; boundary=boundary
+#
+#--boundary
+#Content-Disposition: form-data; name="file"; filename="buyer.png"
+#Content-Type: image/png
+#
+#< ./images/buyers/buyer-placeholder.png
+#--boundary--
+#
+#### • **As a buyer**, I want to view my profile picture.
+#GET http://localhost:8090/api/warehousing/buyers/{{buyerId}}/profile-picture
+#Authorization: Bearer {{buyer_access_token}}
+#
 #### • **As a warehouse manager**, I want to have an overview and know what the total raw material is in my warehouses as well as the details of each warehouse.
 #GET http://localhost:8090/api/warehousing/warehouses/overview
 #Accept: application/json

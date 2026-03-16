@@ -21,6 +21,13 @@ public class SellerJpaEntity {
     @Embedded
     private AddressEmbeddable address;
 
+    @Lob
+    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
+    private byte[] profilePicture;
+
+    @Column(name = "profile_picture_content_type")
+    private String profilePictureContentType;
+
     public UUID getId() {
         return id;
     }
@@ -43,5 +50,25 @@ public class SellerJpaEntity {
 
     public void setAddress(final AddressEmbeddable address) {
         this.address = address;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public boolean hasProfilePicture() {
+        return profilePicture != null;
+    }
+
+    public void setProfilePicture(final byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getProfilePictureContentType() {
+        return profilePictureContentType;
+    }
+
+    public void setProfilePictureContentType(final String profilePictureContentType) {
+        this.profilePictureContentType = profilePictureContentType;
     }
 }

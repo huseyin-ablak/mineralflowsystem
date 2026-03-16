@@ -7,6 +7,8 @@ import be.kdg.prog6.warehousing.domain.Address;
 import be.kdg.prog6.warehousing.domain.Seller;
 import be.kdg.prog6.warehousing.domain.SellerId;
 import be.kdg.prog6.warehousing.port.out.LoadSellerPort;
+import be.kdg.prog6.warehousing.port.out.ProfilePicture;
+import be.kdg.prog6.warehousing.port.out.SellerProfilePicturePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class SellerDatabaseAdapter implements LoadSellerPort {
+public class SellerDatabaseAdapter implements LoadSellerPort, SellerProfilePicturePort {
     private static final Logger LOGGER = LoggerFactory.getLogger(SellerDatabaseAdapter.class);
 
     private final SellerJpaRepository sellerJpaRepository;
@@ -59,5 +61,24 @@ public class SellerDatabaseAdapter implements LoadSellerPort {
             addressEmbeddable.getCity(),
             addressEmbeddable.getCountry()
         );
+    }
+
+    @Override
+    public Optional<ProfilePicture> loadProfilePicture(final SellerId sellerId) {
+        LOGGER.info("Loading Profile Picture for Seller with ID {}", sellerId.id());
+        final SellerJpaEntity sellerJpa = sellerJpaRepository.findById(sellerId.id()).orElseThrow();
+        if (sellerJpa.hasProfilePicture()) {
+            return Optional.of(new ProfilePicture(sellerJpa.getProfilePicture(), sellerJpa.getProfilePictureContentType()));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void saveProfilePicture(final SellerId sellerId, final byte[] content, final String contentType) {
+        LOGGER.info("Saving Profile Picture for Seller with ID {}", sellerId.id());
+        final SellerJpaEntity seller = sellerJpaRepository.findById(sellerId.id()).orElseThrow();
+        seller.setProfilePicture(content);
+        seller.setProfilePictureContentType(contentType);
+        sellerJpaRepository.save(seller);
     }
 }

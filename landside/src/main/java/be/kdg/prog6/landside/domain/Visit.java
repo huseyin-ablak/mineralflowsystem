@@ -26,12 +26,7 @@ public class Visit {
     /*
      * Constructor(s)
      */
-    public Visit(final VisitId visitId, final AppointmentId appointmentId,
-                 final WarehouseId warehouseId, final TruckLicensePlate truckLicensePlate,
-                 final RawMaterial rawMaterial,
-                 final LocalDateTime arrivalTime, final WeighBridgeTransaction weighBridgeTransaction,
-                 final LocalDateTime dockTime, final LocalDateTime departureTime,
-                 final VisitStatus status) {
+    public Visit(final VisitId visitId, final AppointmentId appointmentId, final WarehouseId warehouseId, final TruckLicensePlate truckLicensePlate, final RawMaterial rawMaterial, final LocalDateTime arrivalTime, final WeighBridgeTransaction weighBridgeTransaction, final LocalDateTime dockTime, final LocalDateTime departureTime, final VisitStatus status) {
         this.visitId = visitId;
         this.appointmentId = appointmentId;
         this.warehouseId = warehouseId;
@@ -97,10 +92,8 @@ public class Visit {
         if (hasWeighBridgeTransaction()) {
             throw new InvalidOperationException("Weigh-in already recorded for this visit.");
         }
-
         weighBridgeTransaction = createWeighBridgeTransaction(truckLicensePlate, grossWeight);
         this.status = VisitStatus.WEIGHED_IN;
-
         return weighBridgeTransaction;
     }
 
@@ -112,10 +105,8 @@ public class Visit {
         if (!hasWeighBridgeTransaction()) {
             throw new InvalidOperationException("Weigh-In must be recorded before Weigh-Out.");
         }
-
         weighBridgeTransaction.recordWeighOut(tareWeight, LocalDateTime.now());
         this.status = VisitStatus.WEIGHED_OUT;
-
         return weighBridgeTransaction;
     }
 
