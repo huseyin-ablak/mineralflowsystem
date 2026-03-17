@@ -23,7 +23,7 @@ public class BunkeringOperationQueryDatabaseAdapter implements BunkeringOperatio
 
     @Override
     public int countPerformedBunkeringOperationsByDate(final LocalDate date) {
-        LOGGER.info("Counting performed Bunkering Operations for date {} at {}", date, KDG);
+        LOGGER.info("Counting performed Bunkering Operations on {} at {}", date, KDG);
         final LocalDateTime start = date.atStartOfDay();
         final LocalDateTime end = date.plusDays(1).atStartOfDay();
         final int count = (int) bunkeringOperationJpaRepository.countPerformedBetween(start, end);

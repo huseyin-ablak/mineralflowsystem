@@ -45,7 +45,7 @@ public class ProcessQueuedBunkeringOperationsTaskImpl implements ProcessQueuedBu
     @Transactional
     public void processQueuedBunkeringOperations() { // FIFO
         final LocalDate processingDate = LocalDate.now(clock);
-        LOGGER.info("Scheduled Bunkering Operation processing started at {} at {}", KDG, processingDate);
+        LOGGER.info("Scheduled Bunkering Operation processing started at {} on {}", KDG, processingDate);
         int bunkeringOperationsProcessed = 0;
 
         final List<ShippingOrder> orders =

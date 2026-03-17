@@ -40,7 +40,7 @@ public class GetBookableTimeSlotsUseCaseImpl implements GetBookableTimeSlotsUseC
     @Override
     @Transactional
     public List<BookableTimeSlot> getBookableTimeSlotsFor(final LocalDate date) {
-        LOGGER.info("Getting Bookable Time Slots for date {} at {}", date, KDG);
+        LOGGER.info("Getting Bookable Time Slots on {} at {}", date, KDG);
         final DailySchedule dailySchedule = loadDailySchedulePort.loadDailyScheduleByDate(date).orElseThrow(
             () -> DailyScheduleNotAvailableException.forDate(date)
         );
