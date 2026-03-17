@@ -4,8 +4,9 @@ package be.kdg.prog6.warehousing.port.out;
  * Represents raw profile picture data returned by the persistence adapter.
  *
  * <p>This record lives in the port layer rather than the domain because it carries
- * infrastructure-specific byte content. The domain does not need to know how
- * profile pictures are stored or transferred – it only cares that one exists.
+ * raw byte content, which is a storage and transport concern. The domain has no
+ * concept of profile picture data – it is loaded and served entirely through the
+ * port and adapter layers.
  *
  * <p>Per ADR-2, if storage moves to an external service (S3/MinIO/Azure Blob),
  * this record would be replaced by a {@code ProfilePictureId} value object in the
