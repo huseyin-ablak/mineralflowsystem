@@ -74,4 +74,13 @@ public class BuyerDatabaseAdapter implements LoadBuyerPort, BuyerProfilePictureP
         buyerJpa.setProfilePictureContentType(contentType);
         buyerJpaRepository.save(buyerJpa);
     }
+
+    @Override
+    public void removeProfilePicture(final BuyerId buyerId) {
+        LOGGER.info("Removing Profile Picture for Buyer with ID {}", buyerId.id());
+        final BuyerJpaEntity buyerJpa = buyerJpaRepository.findById(buyerId.id()).orElseThrow();
+        buyerJpa.setProfilePicture(null);
+        buyerJpa.setProfilePictureContentType(null);
+        buyerJpaRepository.save(buyerJpa);
+    }
 }

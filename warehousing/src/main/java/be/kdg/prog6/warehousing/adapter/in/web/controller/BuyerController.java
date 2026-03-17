@@ -1,7 +1,9 @@
 package be.kdg.prog6.warehousing.adapter.in.web.controller;
 
 import be.kdg.prog6.warehousing.domain.BuyerId;
-import be.kdg.prog6.warehousing.port.out.BuyerProfilePicturePort;
+import be.kdg.prog6.warehousing.port.in.usecase.GetBuyerProfilePictureUseCase;
+import be.kdg.prog6.warehousing.port.in.usecase.RemoveBuyerProfilePictureUseCase;
+import be.kdg.prog6.warehousing.port.in.usecase.UploadBuyerProfilePictureUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -23,10 +25,16 @@ import static java.lang.String.format;
 public class BuyerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BuyerController.class);
 
-    private final BuyerProfilePicturePort buyerProfilePicturePort;
+    private final GetBuyerProfilePictureUseCase getBuyerProfilePictureUseCase;
+    private final UploadBuyerProfilePictureUseCase uploadBuyerProfilePictureUseCase;
+    private final RemoveBuyerProfilePictureUseCase removeBuyerProfilePictureUseCase;
 
-    public BuyerController(final BuyerProfilePicturePort buyerProfilePicturePort) {
-        this.buyerProfilePicturePort = buyerProfilePicturePort;
+    public BuyerController(final GetBuyerProfilePictureUseCase getBuyerProfilePictureUseCase,
+                           final UploadBuyerProfilePictureUseCase uploadBuyerProfilePictureUseCase,
+                           final RemoveBuyerProfilePictureUseCase removeBuyerProfilePictureUseCase) {
+        this.getBuyerProfilePictureUseCase = getBuyerProfilePictureUseCase;
+        this.uploadBuyerProfilePictureUseCase = uploadBuyerProfilePictureUseCase;
+        this.removeBuyerProfilePictureUseCase = removeBuyerProfilePictureUseCase;
     }
 
     @GetMapping("/{id}/profile-picture")
@@ -34,7 +42,7 @@ public class BuyerController {
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable final UUID id,
                                                     @AuthenticationPrincipal final Jwt jwt) {
         logUserActivity(LOGGER, jwt, format("is viewing the Profile Picture of Buyer with ID %s", id));
-        return buyerProfilePicturePort.loadProfilePicture(BuyerId.of(id))
+        return getBuyerProfilePictureUseCase.getProfilePicture(BuyerId.of(id), jwt)
             .map(picture -> ResponseEntity.ok().contentType(MediaType.parseMediaType(picture.contentType()))
                 .body(picture.content()))
             .orElse(ResponseEntity.notFound().build());
@@ -48,7 +56,16 @@ public class BuyerController {
         @AuthenticationPrincipal final Jwt jwt
     ) throws IOException {
         logUserActivity(LOGGER, jwt, format("is uploading a Profile Picture for Buyer with ID %s", id));
-        buyerProfilePicturePort.saveProfilePicture(BuyerId.of(id), file.getBytes(), file.getContentType());
+        uploadBuyerProfilePictureUseCase.uploadProfilePicture(BuyerId.of(id), file.getBytes(), file.getContentType(), jwt);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/profile-picture")
+    @PreAuthorize("hasAnyRole('ROLE_BUYER', 'ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteProfilePicture(@PathVariable final UUID id,
+                                                     @AuthenticationPrincipal final Jwt jwt) {
+        logUserActivity(LOGGER, jwt, format("is removing the Profile Picture of Buyer with ID %s", id));
+        removeBuyerProfilePictureUseCase.removeProfilePicture(BuyerId.of(id), jwt);
         return ResponseEntity.noContent().build();
     }
 }

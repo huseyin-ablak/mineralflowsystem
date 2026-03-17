@@ -2,6 +2,7 @@ package be.kdg.prog6;
 
 import be.kdg.prog6.common.exception.InvalidOperationException;
 import be.kdg.prog6.common.exception.NotFoundException;
+import be.kdg.prog6.common.exception.UnauthorizedAccessException;
 import be.kdg.prog6.invoicing.domain.exception.InvoicingDomainException;
 import be.kdg.prog6.landside.domain.exception.LandsideDomainException;
 import be.kdg.prog6.warehousing.domain.exception.WarehousingDomainException;
@@ -44,6 +45,12 @@ public class GlobalExceptionHandling {
     @ExceptionHandler(InvoicingDomainException.class)
     public ResponseEntity<ErrorDto> handleInvoicing(final InvoicingDomainException ex) {
         return ResponseEntity.badRequest().body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ErrorDto> unauthorizedAccess(final UnauthorizedAccessException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(new ErrorDto(ex.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)

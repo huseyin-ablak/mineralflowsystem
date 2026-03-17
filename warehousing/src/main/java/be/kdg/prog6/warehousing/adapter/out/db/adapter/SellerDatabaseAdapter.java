@@ -81,4 +81,13 @@ public class SellerDatabaseAdapter implements LoadSellerPort, SellerProfilePictu
         sellerJpa.setProfilePictureContentType(contentType);
         sellerJpaRepository.save(sellerJpa);
     }
+
+    @Override
+    public void removeProfilePicture(final SellerId sellerId) {
+        LOGGER.info("Removing Profile Picture for Seller with ID {}", sellerId.id());
+        final SellerJpaEntity sellerJpa = sellerJpaRepository.findById(sellerId.id()).orElseThrow();
+        sellerJpa.setProfilePicture(null);
+        sellerJpa.setProfilePictureContentType(null);
+        sellerJpaRepository.save(sellerJpa);
+    }
 }

@@ -61,6 +61,8 @@ grant_type=password
     client.global.set("seller_access_token", response.body.access_token);
 %}
 
+##### Profile Pictures - READ: [owner, warehouse manager, admin] | WRITE/DELETE: [owner, admin]
+#
 #### • **As a seller**, I want to upload my profile picture.
 #PUT http://localhost:8090/api/warehousing/sellers/{{sellerId}}/profile-picture
 #Authorization: Bearer {{seller_access_token}}
@@ -75,6 +77,10 @@ grant_type=password
 #
 #### • **As a seller**, I want to view my profile picture.
 #GET http://localhost:8090/api/warehousing/sellers/{{sellerId}}/profile-picture
+#Authorization: Bearer {{seller_access_token}}
+#
+#### • **As a seller**, I want to remove my profile picture.
+#DELETE http://localhost:8090/api/warehousing/sellers/{{sellerId}}/profile-picture
 #Authorization: Bearer {{seller_access_token}}
 #
 #### • **As a buyer**, I want to upload my profile picture.

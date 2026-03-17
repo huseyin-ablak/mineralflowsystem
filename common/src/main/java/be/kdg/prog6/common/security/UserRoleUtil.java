@@ -49,4 +49,8 @@ public final class UserRoleUtil {
     public static boolean hasRole(final Jwt jwt, final UserRole role) {
         return extractRole(jwt) == role;
     }
+
+    public static boolean isAdmin(final Jwt jwt) {
+        return hasRole(jwt, UserRole.ADMIN);
+    }
 }

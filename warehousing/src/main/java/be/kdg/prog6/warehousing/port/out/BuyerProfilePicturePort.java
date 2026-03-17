@@ -8,4 +8,6 @@ public interface BuyerProfilePicturePort {
     Optional<ProfilePicture> loadProfilePicture(BuyerId buyerId);
 
     void saveProfilePicture(BuyerId buyerId, byte[] content, String contentType);
+
+    void removeProfilePicture(BuyerId buyerId);
 }
