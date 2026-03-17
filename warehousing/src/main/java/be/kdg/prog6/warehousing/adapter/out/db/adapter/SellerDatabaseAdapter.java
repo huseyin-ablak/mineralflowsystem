@@ -76,9 +76,9 @@ public class SellerDatabaseAdapter implements LoadSellerPort, SellerProfilePictu
     @Override
     public void saveProfilePicture(final SellerId sellerId, final byte[] content, final String contentType) {
         LOGGER.info("Saving Profile Picture for Seller with ID {}", sellerId.id());
-        final SellerJpaEntity seller = sellerJpaRepository.findById(sellerId.id()).orElseThrow();
-        seller.setProfilePicture(content);
-        seller.setProfilePictureContentType(contentType);
-        sellerJpaRepository.save(seller);
+        final SellerJpaEntity sellerJpa = sellerJpaRepository.findById(sellerId.id()).orElseThrow();
+        sellerJpa.setProfilePicture(content);
+        sellerJpa.setProfilePictureContentType(contentType);
+        sellerJpaRepository.save(sellerJpa);
     }
 }
