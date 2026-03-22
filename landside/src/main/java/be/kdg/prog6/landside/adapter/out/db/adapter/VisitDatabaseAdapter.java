@@ -87,21 +87,21 @@ public class VisitDatabaseAdapter implements LoadVisitPort, UpdateVisitPort {
         return transactionJpaEntity;
     }
 
-    private Visit toVisit(final VisitJpaEntity jpaEntity) {
-        final WeighBridgeTransaction transaction = jpaEntity.getWeighBridgeTransaction() != null
-            ? toWeighBridgeTransaction(jpaEntity.getWeighBridgeTransaction())
+    private Visit toVisit(final VisitJpaEntity visitJpa) {
+        final WeighBridgeTransaction transaction = visitJpa.getWeighBridgeTransaction() != null
+            ? toWeighBridgeTransaction(visitJpa.getWeighBridgeTransaction())
             : null;
         return new Visit(
-            VisitId.of(jpaEntity.getVisitId()),
-            AppointmentId.of(jpaEntity.getAppointmentId()),
-            WarehouseId.of(jpaEntity.getWarehouseId()),
-            new TruckLicensePlate(jpaEntity.getTruckLicensePlate()),
-            jpaEntity.getRawMaterial(),
-            jpaEntity.getArrivalTime(),
+            VisitId.of(visitJpa.getVisitId()),
+            AppointmentId.of(visitJpa.getAppointmentId()),
+            WarehouseId.of(visitJpa.getWarehouseId()),
+            new TruckLicensePlate(visitJpa.getTruckLicensePlate()),
+            visitJpa.getRawMaterial(),
+            visitJpa.getArrivalTime(),
             transaction,
-            jpaEntity.getDockTime(),
-            jpaEntity.getDepartureTime(),
-            jpaEntity.getStatus()
+            visitJpa.getDockTime(),
+            visitJpa.getDepartureTime(),
+            visitJpa.getStatus()
         );
     }
 

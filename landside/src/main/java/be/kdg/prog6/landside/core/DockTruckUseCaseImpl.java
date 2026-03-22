@@ -51,7 +51,7 @@ public class DockTruckUseCaseImpl implements DockTruckUseCase {
         final Visit visit = loadVisitPort.loadActiveVisitByTruckLicensePlate(plate).orElseThrow(
             () -> VisitNotFoundException.activeForTruck(plate)
         );
-        // Occupy a new weigh bridge for the weigh-out return trip
+        // Occupy a new weigh bridge for the weigh-out on the way out
         final WeighBridge weighBridge = loadWeighBridgePort.loadClosestAvailableWeighBridge().orElseThrow(
             NoWeighBridgeAvailableException::new
         );

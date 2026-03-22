@@ -31,7 +31,7 @@ Manages truck appointment scheduling for a single day; owns a list of `TimeSlot`
 - `fulfillAppointment(AppointmentId)`
 - `cancelAppointment(AppointmentId)`
 - `findAppointmentById(AppointmentId)`
-- `findAppointmentByTruckAndTime(TruckLicensePlate, LocalDateTime)`
+- `appointmentFor(TruckLicensePlate, LocalDateTime)`
 - `findAllAppointments()`
 
 ---

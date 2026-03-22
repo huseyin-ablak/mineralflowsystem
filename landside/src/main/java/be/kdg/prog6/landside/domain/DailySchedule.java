@@ -104,14 +104,14 @@ public class DailySchedule {
 
     // Note: We were told that we should assume the same truck doesn't arrive twice during the same slot or within its arrival window.
     //  If the appointment is not found, return an empty optional.
-    public Optional<Appointment> findAppointmentByTruckAndTime(
+    public Optional<Appointment> scheduledAppointmentFor(
         final TruckLicensePlate plate,
         final LocalDateTime time
     ) {
         for (TimeSlot slot : timeSlots) {
             if (slot.contains(time)) {
                 for (Appointment appointment : slot.getAppointments()) {
-                    if (appointment.getTruckLicensePlate().equals(plate)) {
+                    if (appointment.getTruckLicensePlate().equals(plate) && appointment.isScheduled()) {
                         return Optional.of(appointment);
                     }
                 }
@@ -120,7 +120,7 @@ public class DailySchedule {
         return Optional.empty();
     }
 
-    public List<Appointment> findAllAppointments() {
+    public List<Appointment> allAppointments() {
         final List<Appointment> allAppointments = new ArrayList<>();
         for (TimeSlot timeSlot : timeSlots) {
             allAppointments.addAll(timeSlot.getAppointments());

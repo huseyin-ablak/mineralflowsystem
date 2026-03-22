@@ -44,14 +44,12 @@ public class RecognizeTruckAtEntranceGateUseCaseImpl implements RecognizeTruckAt
         final LocalDateTime arrivalTime = LocalDateTime.now();
         final LocalDate date = arrivalTime.toLocalDate();
 
-        final DailySchedule dailySchedule = loadDailySchedulePort
-            .loadDailyScheduleByDate(date).orElseThrow(
-                () -> DailyScheduleNotAvailableException.forDate(date)
-            );
-        final Appointment appointment = dailySchedule
-            .findAppointmentByTruckAndTime(licensePlate, arrivalTime).orElseThrow(
-                () -> TruckNotRecognizedException.forLicensePlate(licensePlate)
-            );
+        final DailySchedule dailySchedule = loadDailySchedulePort.loadDailyScheduleByDate(date).orElseThrow(
+            () -> DailyScheduleNotAvailableException.forDate(date)
+        );
+        final Appointment appointment = dailySchedule.scheduledAppointmentFor(licensePlate, arrivalTime).orElseThrow(
+            () -> TruckNotRecognizedException.forLicensePlate(licensePlate)
+        );
         // If an appointment is found within that time slot, check if it's an early/late arrival
         // PS: Need to look into the definition of arrival window, if `appointment.getArrivalWindowEnd()` is later
         // than the `endTime` of the TimeSlot in belongs to then it makes no sense to do something like this.

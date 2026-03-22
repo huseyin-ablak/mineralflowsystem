@@ -70,7 +70,7 @@ public class WeighBridgeDatabaseAdapter implements LoadWeighBridgePort, UpdateWe
         final WeighBridgeJpaEntity entity = new WeighBridgeJpaEntity();
         entity.setWeighBridgeId(weighBridge.getId().id());
         entity.setNumber(weighBridge.getNumber().value());
-        entity.setOccupiedByVisitId(weighBridge.getOccupiedByVisitId() != null
+        entity.setOccupiedByVisitId(weighBridge.isOccupied()
             ? weighBridge.getOccupiedByVisitId().id()
             : null
         );
