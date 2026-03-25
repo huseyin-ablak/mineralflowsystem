@@ -40,7 +40,7 @@ public class WarehouseRawMaterialProjectorImpl implements WarehouseRawMaterialPr
         }
         final Warehouse warehouse = optionalWarehouse.get();
         final RawMaterial oldRawMaterial = warehouse.getRawMaterial();
-        warehouse.setRawMaterial(command.rawMaterial());
+        warehouse.projectRawMaterial(command.rawMaterial());
         final RawMaterial newRawMaterial = warehouse.getRawMaterial();
         updateWarehousePort.updateWarehouse(warehouse);
         LOGGER.info("Updated Raw Material for Warehouse {} from {} to {}", id, oldRawMaterial, newRawMaterial);

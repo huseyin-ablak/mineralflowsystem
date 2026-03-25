@@ -50,7 +50,7 @@ class CalculateCommissionFeeUseCaseImplMockingTest {
         // Arrange
         final CalculateCommissionFeeCommand command = new CalculateCommissionFeeCommand(
             TestIds.CUSTOMER_ID,
-            Map.of(TestIds.RAW_MATERIAL_NAME, BigDecimal.valueOf(10)) // 10 tons of Iron Ore
+            Map.of(TestIds.RAW_MATERIAL_NAME, BigDecimal.valueOf(10))
         );
 
         // Act

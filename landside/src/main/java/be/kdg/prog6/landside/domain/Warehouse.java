@@ -44,7 +44,11 @@ public class Warehouse {
         return rawMaterial;
     }
 
-    public void setRawMaterial(final RawMaterial rawMaterial) {
+    public void projectRawMaterial(final RawMaterial rawMaterial) {
+        setRawMaterial(rawMaterial);
+    }
+
+    private void setRawMaterial(final RawMaterial rawMaterial) {
         this.rawMaterial = rawMaterial;
     }
 

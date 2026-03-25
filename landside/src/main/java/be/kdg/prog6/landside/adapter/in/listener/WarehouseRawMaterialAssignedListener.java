@@ -23,7 +23,7 @@ public class WarehouseRawMaterialAssignedListener {
     private final CancelMismatchedAppointmentsForWarehouseUseCase cancelMismatchedAppointmentsForWarehouseUseCase;
 
     public WarehouseRawMaterialAssignedListener(final WarehouseRawMaterialProjector warehouseRawMaterialProjector,
-                                                 final CancelMismatchedAppointmentsForWarehouseUseCase cancelMismatchedAppointmentsForWarehouseUseCase) {
+                                                final CancelMismatchedAppointmentsForWarehouseUseCase cancelMismatchedAppointmentsForWarehouseUseCase) {
         this.warehouseRawMaterialProjector = warehouseRawMaterialProjector;
         this.cancelMismatchedAppointmentsForWarehouseUseCase = cancelMismatchedAppointmentsForWarehouseUseCase;
     }
