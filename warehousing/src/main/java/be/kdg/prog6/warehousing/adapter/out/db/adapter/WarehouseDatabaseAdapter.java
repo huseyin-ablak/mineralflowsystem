@@ -374,7 +374,7 @@ public class WarehouseDatabaseAdapter
         final WarehouseShipmentAllocationJpaEntity allocationJpaEntity = new WarehouseShipmentAllocationJpaEntity();
         allocationJpaEntity.setId(id);
         allocationJpaEntity.setAmountAllocated(allocation.amountAllocated());
-        /* No JPA relationship linking(with delivery & shipment) needed, the composite ID is sufficient for querying */
+        /* No JPA linking(with delivery & shipment) needed, the composite ID is sufficient for querying */
         return allocationJpaEntity;
     }
 
