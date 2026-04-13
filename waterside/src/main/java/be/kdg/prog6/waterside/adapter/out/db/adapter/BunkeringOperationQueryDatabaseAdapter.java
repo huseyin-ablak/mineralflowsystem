@@ -27,7 +27,7 @@ public class BunkeringOperationQueryDatabaseAdapter implements BunkeringOperatio
         final LocalDateTime start = date.atStartOfDay();
         final LocalDateTime end = date.plusDays(1).atStartOfDay();
         final int count = (int) bunkeringOperationJpaRepository.countPerformedBetween(start, end);
-        LOGGER.info("Found {} Bunkering Operations performed on: {}", count, date);
+        LOGGER.info("Found {} Bunkering Operations performed on {}", count, date);
         return count;
     }
 }

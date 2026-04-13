@@ -7,10 +7,9 @@ public class BunkeringLimitExceededException extends WatersideDomainException {
         super(message);
     }
 
-    public static BunkeringLimitExceededException forLimit(final int limit) {
+    public static BunkeringLimitExceededException forDailyLimit(final int limit) {
         return new BunkeringLimitExceededException(
-            "Cannot perform more than %d Bunkering Operations in a single day."
-                .formatted(limit)
+            "Cannot perform more than %d Bunkering Operations in a single day.".formatted(limit)
         );
     }
 }

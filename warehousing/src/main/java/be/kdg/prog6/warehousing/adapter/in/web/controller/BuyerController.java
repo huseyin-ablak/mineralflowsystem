@@ -39,8 +39,7 @@ public class BuyerController {
 
     @GetMapping("/{id}/profile-picture")
     @PreAuthorize("hasAnyRole('ROLE_BUYER', 'ROLE_WAREHOUSE_MANAGER', 'ROLE_ADMIN')")
-    public ResponseEntity<byte[]> getProfilePicture(@PathVariable final UUID id,
-                                                    @AuthenticationPrincipal final Jwt jwt) {
+    public ResponseEntity<byte[]> getProfilePicture(@PathVariable final UUID id, @AuthenticationPrincipal final Jwt jwt) {
         logUserActivity(LOGGER, jwt, format("is viewing the Profile Picture of Buyer with ID %s", id));
         return getBuyerProfilePictureUseCase.getProfilePicture(BuyerId.of(id), jwt)
             .map(picture -> ResponseEntity.ok().contentType(MediaType.parseMediaType(picture.contentType()))
